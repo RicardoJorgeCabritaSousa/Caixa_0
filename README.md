@@ -17,6 +17,27 @@ Material de Experimentação - Sistema para salvar texto e fazer commits automat
 python caixa_texto.py
 ```
 
+### Linha de Comando
+```bash
+# Listar textos salvos
+python caixa_texto.py --list
+
+# Ler um texto específico
+python caixa_texto.py --read nome_do_arquivo
+
+# Salvar texto via linha de comando (com commit automático)
+python caixa_texto.py --save "nome" "Conteúdo do texto"
+
+# Salvar texto sem commit automático
+python caixa_texto.py --save "nome" "Texto" --no-commit
+
+# Fazer commit manual
+python caixa_texto.py --commit "Mensagem do commit"
+
+# Ver ajuda
+python caixa_texto.py --help
+```
+
 ### Exemplo Programático
 ```bash
 python exemplo_uso.py
