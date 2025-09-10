@@ -172,8 +172,14 @@ class CaixaTexto:
             except KeyboardInterrupt:
                 print("\n\nSaindo da Caixa de Texto. Até breve!")
                 break
+            except EOFError:
+                print("\n\nSaindo da Caixa de Texto. Até breve!")
+                break
             except Exception as e:
                 print(f"✗ Erro: {e}")
+                # Se for um erro de entrada não interativa, sair
+                if "EOF" in str(e):
+                    break
     
     def _opcao_salvar_texto(self):
         """Opção do menu para salvar texto"""
