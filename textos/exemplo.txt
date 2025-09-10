@@ -1,0 +1,9 @@
+Este é um exemplo de texto salvo na Caixa.
+    
+Data: 2025-01-10
+Conteúdo: Texto de exemplo para demonstrar o funcionamento.
+
+A Caixa de Texto permite:
+- Salvar textos em arquivos
+- Fazer commits automáticos
+- Organizar o conteúdo em um diretório específico
