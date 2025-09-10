@@ -249,16 +249,66 @@ class CaixaTexto:
 
 def main():
     """Função principal"""
-    if len(sys.argv) > 1:
-        # Modo linha de comando
-        if sys.argv[1] == '--help' or sys.argv[1] == '-h':
-            print("Uso: python caixa_texto.py [opções]")
-            print("  --help, -h     Mostra esta ajuda")
-            print("  (sem opções)   Inicia o modo interativo")
-            return
+    import argparse
     
-    # Modo interativo
+    parser = argparse.ArgumentParser(
+        description="Caixa de Texto - Sistema para salvar texto e fazer commits",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Exemplos de uso:
+  python caixa_texto.py                     # Modo interativo
+  python caixa_texto.py --list              # Listar textos salvos
+  python caixa_texto.py --read nome         # Ler texto específico
+  python caixa_texto.py --save nome "texto" # Salvar texto via linha de comando
+  python caixa_texto.py --commit "mensagem" # Fazer commit manual
+        """
+    )
+    
+    parser.add_argument('--list', '-l', action='store_true',
+                       help='Listar todos os textos salvos')
+    parser.add_argument('--read', '-r', metavar='NOME',
+                       help='Ler um texto específico')
+    parser.add_argument('--save', '-s', nargs=2, metavar=('NOME', 'TEXTO'),
+                       help='Salvar texto via linha de comando')
+    parser.add_argument('--commit', '-c', metavar='MENSAGEM',
+                       help='Fazer commit com mensagem específica')
+    parser.add_argument('--no-commit', action='store_true',
+                       help='Não fazer commit automático ao salvar')
+    
+    args = parser.parse_args()
+    
     caixa = CaixaTexto()
+    
+    # Verifica se alguma opção de linha de comando foi usada
+    if args.list:
+        textos = caixa.listar_textos()
+        if textos:
+            print(f"Textos salvos ({len(textos)}):")
+            for texto in textos:
+                print(f"  • {texto}")
+        else:
+            print("Nenhum texto encontrado.")
+        return
+    
+    if args.read:
+        conteudo = caixa.ler_texto(args.read)
+        if conteudo is not None:
+            print(f"--- Conteúdo de {args.read} ---")
+            print(conteudo)
+            print("-" * 40)
+        return
+    
+    if args.save:
+        nome, texto = args.save
+        fazer_commit = not args.no_commit
+        caixa.salvar_texto(nome, texto, fazer_commit)
+        return
+    
+    if args.commit:
+        caixa.fazer_commit(args.commit)
+        return
+    
+    # Se nenhuma opção foi especificada, usar modo interativo
     caixa.menu_interativo()
 
 
